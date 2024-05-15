@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   // console.log(test);
   useEffect(() => {
     if (userId) {
-      const socket = io("http://localhost:8001", {
+      const socket = io("https://mern-chat-app-eta-two.vercel.app", {
         query: {
           userId: userId?._id,
         },
