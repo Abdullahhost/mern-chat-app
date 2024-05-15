@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (getDataInformation) {
-      <Navigate to={"https://mern-chat-app-eta-two.vercel.app/chat"} />;
+      <Navigate to={"/chat"} />;
     } else {
       <Navigate to={"/"} />;
     }
@@ -34,7 +34,7 @@ function App() {
             element={<Protected getDataInformation={getDataInformation} />}
           />
           <Route
-            path="https://mern-chat-app-eta-two.vercel.app/chat"
+            path="/chat"
             element={<ChatProtected getDataInformation={getDataInformation} />}
           />
         </Routes>

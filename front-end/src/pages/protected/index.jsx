@@ -6,7 +6,7 @@ import Login from "../login";
 const Protected = ({ getDataInformation }) => {
   if (getDataInformation) {
     return (
-      <Navigate to="https://mern-chat-app-eta-two.vercel.app/chat" replace />
+      <Navigate to="/chat" replace />
     );
   } else {
     return <Login />;
