@@ -1,0 +1,6 @@
+.test {
+  display: none;
+}
+.pear:hover.test {
+  display: block;
+}
