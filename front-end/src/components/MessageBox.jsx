@@ -53,7 +53,7 @@ const MessageBox = () => {
     if (test !== "") {
       try {
         const res = await axios.post(
-          `http://localhost:8001/messages/send/${reciverId?._id}`,
+          `https://mern-chat-app-ermc.onrender.com/messages/send/${reciverId?._id}`,
           chatMessage
         );
 

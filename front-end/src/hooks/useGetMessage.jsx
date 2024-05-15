@@ -19,7 +19,7 @@ export const useGetMessage = () => {
       try {
         if (selectedUser) {
           const res = await axios.post(
-            `http://localhost:8001/messages/${selectedUser?._id}`,
+            `https://mern-chat-app-ermc.onrender.com/messages/${selectedUser?._id}`,
             senderId
           );
           dispatch(messageIdActions.setMessage(res?.data));

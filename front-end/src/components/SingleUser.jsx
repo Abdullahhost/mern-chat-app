@@ -37,7 +37,7 @@ const SingleUser = ({ userInfo }) => {
     const getLastMessage = async () => {
       try {
         const res = await axios.post(
-          `http://localhost:8001/messages/${_id}`,
+          `https://mern-chat-app-ermc.onrender.com/messages/${_id}`,
           senderId
         );
 

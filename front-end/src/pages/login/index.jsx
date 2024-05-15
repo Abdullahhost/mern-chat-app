@@ -56,7 +56,7 @@ const Login = () => {
       try {
         dispatch(authSliceActions.loginStart());
         const res = await axios.post(
-          "http://localhost:8001/register",
+          "https://mern-chat-app-ermc.onrender.com/register",
           formData,
           { withCredentials: true }
         );
@@ -74,7 +74,7 @@ const Login = () => {
       try {
         dispatch(authSliceActions.loginStart());
         const res = await axios.post(
-          "http://localhost:8001/login",
+          "https://mern-chat-app-ermc.onrender.com/login",
           loginvalue,
           {
             headers: {

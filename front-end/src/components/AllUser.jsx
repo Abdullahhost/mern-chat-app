@@ -10,7 +10,9 @@ import SingleUser from "./SingleUser";
 import { useSelector } from "react-redux";
 
 const AllUser = () => {
-  const { data, loading, error } = useFetch("http://localhost:8001/user");
+  const { data, loading, error } = useFetch(
+    "https://mern-chat-app-ermc.onrender.com/user"
+  );
   const [query, setQuery] = useState("");
   const toggleButton = useSelector((state) => state.auth.toggleButton);
   const filterForCurrentUser = data?.filter((ele) => {
@@ -23,7 +25,9 @@ const AllUser = () => {
 
   const logOut = async () => {
     try {
-      const res = await axios.post("http://localhost:8001/logout");
+      const res = await axios.post(
+        "https://mern-chat-app-ermc.onrender.com/logout"
+      );
 
       toast.success(res?.data);
       console.log(res?.data);
