@@ -36,7 +36,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
     return () => socket?.off("newMessage");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getMessage, messageIdActions, selectedUser, realtimeSup]);
+  }, [selectedUser, realtimeSup]);
 
   // eslint-disable-next-line react/prop-types
   return (
