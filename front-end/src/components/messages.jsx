@@ -7,8 +7,6 @@ import { messageIdActions } from "../settings/slice/messageSlice";
 import { useSocketContext } from "../libs/context";
 import { useDispatch, useSelector } from "react-redux";
 
-import notification from "../assets/sound/messageSound.mp3";
-
 // eslint-disable-next-line react/prop-types
 const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
   // eslint-disable-next-line react/prop-types
@@ -23,10 +21,6 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
   useEffect(() => {
     socket?.on("newMessage", (newMessage) => {
       if (selectedUser?._id === newMessage?.senderId && newMessage) {
-        if (newMessage) {
-          const sound = new Audio(notification);
-          sound.play();
-        }
         dispatch(
           messageIdActions.setMessage([
             ...(prevMessage || getMessage),
