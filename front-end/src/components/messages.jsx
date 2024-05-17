@@ -24,11 +24,15 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
     socket?.on("newMessage", (newMessage) => {
       if (selectedUser?._id === newMessage?.senderId && newMessage) {
         if (newMessage) {
-          newMessage.shouldShake = true;
           const sound = new Audio(notification);
           sound.play();
         }
-        dispatch(messageIdActions.setMessage([...prevMessage, newMessage]));
+        dispatch(
+          messageIdActions.setMessage([
+            ...(prevMessage || getMessage),
+            newMessage,
+          ])
+        );
       } else {
         return;
       }
@@ -38,7 +42,13 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMessage, messageIdActions, selectedUser, realtimeSup]);
 
-  // eslint-disable-next-line react/prop-types
+  useEffect(() => {
+    let intervalId = setInterval(timeCalculating, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <div className={`${own ? "justify-end" : ""} flex gap-2 w-full`}>

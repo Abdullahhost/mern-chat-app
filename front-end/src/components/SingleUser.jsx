@@ -68,6 +68,13 @@ const SingleUser = ({ userInfo }) => {
     };
   });
 
+  useEffect(() => {
+    let intervalId = setInterval(dateFormat, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div
       className={`w-full min-w-[320px] md:min-w-[250px] lg:w-[320px] flex items-center  justify-between 

@@ -14,14 +14,11 @@ export const SocketContextProvider = ({ children }) => {
   // console.log(test);
   useEffect(() => {
     if (userId) {
-      const socket = io(
-        "https://mern-chat-app-ermc.onrender.com",
-        {
-          query: {
-            userId: userId?._id,
-          },
-        }
-      );
+      const socket = io("https://mern-chat-app-ermc.onrender.com", {
+        query: {
+          userId: userId?._id,
+        },
+      });
       // socket.on("newMessage", (newMessage) => {
       //   setTest(newMessage);
       // });

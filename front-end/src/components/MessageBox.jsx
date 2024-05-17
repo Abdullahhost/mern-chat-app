@@ -7,6 +7,7 @@ import Message from "./messages";
 import { authSliceActions } from "../settings/slice/authSlice";
 import toast from "react-hot-toast";
 
+import { useSocketContext } from "../libs/context";
 const MessageBox = () => {
   const getMessage = useSelector((state) => state?.message?.messageData);
   const loadingmessage = useSelector((state) => state?.message?.loadingMessage);
@@ -16,10 +17,14 @@ const MessageBox = () => {
   const userName = reciverId?.userName;
   const getProfileimage = reciverId?.profile;
 
+  const { socket } = useSocketContext();
+
   const dispatch = useDispatch();
   const scrollsmoth = useRef(null);
   const textBox = useRef(null);
   const [test, setTest] = useState("");
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const [chatMessage, setChatMessage] = useState({
     userProfileId: userId?._id,
@@ -33,6 +38,11 @@ const MessageBox = () => {
       message: e?.target?.value,
     });
 
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing");
+    }
+    debounceStopTyping();
     setTest(e?.target?.value);
   });
 
@@ -49,6 +59,31 @@ const MessageBox = () => {
     });
   }, [reciverId, handleChange, chatMessage.message, realtimeSup]);
 
+  useEffect(() => {
+    socket?.on("typing", () => {
+      setIsTyping(true);
+    });
+
+    socket?.on("stopTyping", () => {
+      setIsTyping(false);
+    });
+
+    return () => {
+      socket?.off("typing");
+      socket?.off("stopTyping");
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reciverId]);
+
+  let debounceTimeout;
+  const debounceStopTyping = () => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      setTyping(false);
+      socket.emit("stopTyping");
+    }, 8000);
+  };
+
   const handleClick = async () => {
     if (test !== "") {
       try {
@@ -60,6 +95,8 @@ const MessageBox = () => {
         dispatch(messageIdActions.setRealtimeSupport(true));
         dispatch(messageIdActions.setMessage([...getMessage, res?.data]));
         setTest("");
+        setTyping(false);
+        socket.emit("stopTyping");
         textBox?.current?.value === "";
       } catch (error) {
         console.log(error);
@@ -168,6 +205,7 @@ const MessageBox = () => {
             rows="1"
             value={test}
             onChange={(e) => handleChange(e)}
+            placeholder={isTyping ? "typing.." : "lets send or drop a message"}
           ></textarea>
 
           <button
