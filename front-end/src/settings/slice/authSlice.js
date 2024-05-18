@@ -12,7 +12,7 @@ const authSlice = createSlice({
 
   reducers: {
     loginStart(state) {
-      state.loading = true;
+      state.loading = !state.loading;
       state.error = null;
     },
 

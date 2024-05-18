@@ -7,7 +7,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="flex items-start w-full h-[100vh] justify-between">
+      <div className="flex items-start w-full h-[100vh_-_10vh] m-[auto_0] lg:h-[100vh] justify-between">
         <AllUser />
         <MessageBox />
       </div>

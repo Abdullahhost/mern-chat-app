@@ -57,7 +57,7 @@ const MessageBox = () => {
         100
       );
     });
-  }, [reciverId, handleChange, chatMessage.message, realtimeSup]);
+  }, [reciverId, realtimeSup]);
 
   useEffect(() => {
     socket?.on("typing", () => {

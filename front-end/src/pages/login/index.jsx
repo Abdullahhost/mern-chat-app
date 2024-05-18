@@ -53,8 +53,8 @@ const Login = () => {
     e.preventDefault();
 
     if (variant === "REGISTER") {
+      dispatch(authSliceActions.loginStart());
       try {
-        dispatch(authSliceActions.loginStart());
         const res = await axios.post(
           "https://mern-chat-app-ermc.onrender.com/register",
           formData,
@@ -66,13 +66,14 @@ const Login = () => {
           toast.success("Welcome To chat-app");
           window.location.replace("/chat");
         }
+        dispatch(authSliceActions.loginStart());
       } catch (err) {
         toast.error(err?.response?.data);
         dispatch(authSliceActions.loginFailer(err?.response?.data));
       }
     } else {
+      dispatch(authSliceActions.loginStart());
       try {
-        dispatch(authSliceActions.loginStart());
         const res = await axios.post(
           "https://mern-chat-app-ermc.onrender.com/login",
           loginvalue,
@@ -88,6 +89,7 @@ const Login = () => {
           toast.success("Login Successfully!");
           window?.location?.replace("/chat");
         }
+        dispatch(authSliceActions.loginStart());
       } catch (err) {
         toast.error(err?.response?.data?.error);
         dispatch(authSliceActions.loginFailer(err?.response?.data));
@@ -98,10 +100,10 @@ const Login = () => {
 
   return (
     <>
-      {getData.loading ? (
+      {getData?.loading ? (
         <Skeleton />
       ) : (
-        <div className="flex items-center transition-all duration-500 flex-col lg:flex-row flex-wrap justify-center w-full h-screen gap-10 overflow-hidden">
+        <div className="flex h-[100vh_-_10vh] m-[auto_0] items-center transition-all duration-500 flex-col lg:flex-row flex-wrap justify-center w-full lg:h-screen gap-10 overflow-hidden">
           <div className="lg:block transition-all duration-500">
             <img
               className="select-none max-w-[250px] max-h-[250px]  lg:max-w-[600px] lg:max-h-[600px] object-cover object-center rounded-md"
