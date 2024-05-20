@@ -51,6 +51,7 @@ const SingleUser = ({ userInfo }) => {
       }
     };
     getLastMessage();
+    return () => getLastMessage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, onlineUsers]);
 

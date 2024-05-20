@@ -103,10 +103,10 @@ const Login = () => {
       {getData?.loading ? (
         <Skeleton />
       ) : (
-        <div className="flex h-[100vh_-_10vh] m-[auto_0] items-center transition-all duration-500 flex-col lg:flex-row flex-wrap justify-center w-full lg:h-screen gap-10 overflow-hidden">
+        <div className="flex items-center transition-all duration-500 flex-col lg:flex-row flex-wrap justify-center w-full h-[90%] mt-[3%]  lg:h-screen gap-10 overflow-hidden">
           <div className="lg:block transition-all duration-500">
             <img
-              className="select-none max-w-[250px] max-h-[250px]  lg:max-w-[600px] lg:max-h-[600px] object-cover object-center rounded-md"
+              className="select-none max-w-[200px] max-h-[200px]  lg:max-w-[600px] lg:max-h-[600px] object-cover object-center rounded-md"
               src={profilePic ? URL?.createObjectURL(profilePic) : defaultUser}
               alt="profileImage"
             />
@@ -121,7 +121,7 @@ const Login = () => {
                   name="userName"
                   title="userName is required"
                   onChange={handleChange}
-                  className="border-b focus:outline-double px-4 py-2 rounded-md mt-5 w-full  
+                  className="border-b focus:outline-double px-4 py-1 lg:py-2 rounded-md mt-2 lg:mt-5 w-full  
                 hover:bg-neutral-50 transition"
                   placeholder="UserName"
                   type="text"
@@ -137,8 +137,8 @@ const Login = () => {
                     name="email"
                     title="email is required"
                     onChange={handleChange}
-                    className="border-b focus:outline-double px-4 py-2 rounded-md mt-5 w-full 
-                hover:bg-neutral-50 transition"
+                    className="border-b focus:outline-double px-4 py-1 lg:py-2 rounded-md  mt-2 lg:mt-5 w-full 
+                  hover:bg-neutral-50 transition"
                     placeholder="Email"
                     type="email"
                     required
@@ -152,8 +152,7 @@ const Login = () => {
                     name="password"
                     title="password is required"
                     onChange={handleChange}
-                    className="border-b focus:outline-double px-4 py-2 rounded-md mt-5 w-full hover:bg-neutral-50 transition 
-                  "
+                    className="border-b focus:outline-double px-4 py-1 lg:py-2 rounded-md  mt-2 lg:mt-5 w-full hover:bg-neutral-50 transition"
                     placeholder="password"
                     type={viewMode ? "text" : "password"}
                     required
@@ -176,7 +175,7 @@ const Login = () => {
                   name="profile"
                   title="Not required!"
                   onChange={handleFileChange}
-                  className="border-b focus:outline-double px-4 py-2 rounded-md mt-5 w-full relative requiredTest 
+                  className="border-b focus:outline-double px-4 py-1 lg:py-2 rounded-md mt-5 w-full relative requiredTest 
                 hover:bg-neutral-50 transition"
                   placeholder="Email"
                   type="file"
@@ -186,12 +185,12 @@ const Login = () => {
               )}
 
               <input
-                className="border-b mt-10 focus:outline-double px-4 py-2 rounded-md w-full bg-black text-white hover:bg-purple-600 transition"
+                className="border-b mt-5 lg:mt-10 focus:outline-double px-4 py-2 rounded-md w-full bg-black text-white hover:bg-purple-600 transition"
                 type="submit"
               />
             </form>
             <Toaster />
-            <div className="mt-10">
+            <div className="mt-5 lg:mt-10 ">
               <span>
                 {variant === "REGISTER"
                   ? "Already have an Account? "

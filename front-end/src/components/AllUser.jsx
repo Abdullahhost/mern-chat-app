@@ -56,7 +56,7 @@ const AllUser = () => {
     <>
       <div
         style={{ flex: "3" }}
-        className={`flex flex-col items-center md:items-start justify-between h-screen border-l ${
+        className={`flex flex-col items-center md:items-start justify-between h-[90%] m-[auto_0] lg:h-full lg:m-0 border-l ${
           toggleButton ? "hidden md:flex" : "testClass"
         } w-full`}
       >
@@ -64,7 +64,7 @@ const AllUser = () => {
           <div className="border-b border-[#4b49b6] shadow-md my-1 lg:my-4">
             <input
               tabIndex={0}
-              className="py-[6px] mx-2 border-none outline-none text-md w-full"
+              className="py-[6px] px-2 border-none outline-none text-md w-full"
               type="search"
               onChange={(e) => setQuery(e.target.value.toLocaleLowerCase())}
               placeholder="search.. "

@@ -11,7 +11,6 @@ import { useSocketContext } from "../libs/context";
 const MessageBox = () => {
   const getMessage = useSelector((state) => state?.message?.messageData);
   const loadingmessage = useSelector((state) => state?.message?.loadingMessage);
-  const realtimeSup = useSelector((state) => state?.message?.realtimeSupport);
   const reciverId = useSelector((state) => state?.auth?.selectedUser);
   const toggleButton = useSelector((state) => state?.auth?.toggleButton);
   const userName = reciverId?.userName;
@@ -54,10 +53,10 @@ const MessageBox = () => {
           block: "end",
           inline: "nearest",
         },
-        100
+        50
       );
     });
-  }, [reciverId, realtimeSup]);
+  }, [handleChange]);
 
   useEffect(() => {
     socket?.on("typing", () => {
@@ -72,7 +71,7 @@ const MessageBox = () => {
       socket?.off("typing");
       socket?.off("stopTyping");
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reciverId]);
 
   let debounceTimeout;
@@ -118,7 +117,7 @@ const MessageBox = () => {
   return (
     <div
       style={{ flex: "10" }}
-      className={`border hidden flex-none  md:flex lg:flex  flex-col h-screen justify-between ml-2 ${
+      className={`border hidden flex-none  md:flex lg:flex  flex-col h-[90%] m-[auto_0] lg:h-full lg:m-0 justify-between ml-2 ${
         toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
       }`}
     >
@@ -131,21 +130,15 @@ const MessageBox = () => {
             ⬅
           </span>
           <span>
-            {/* <img
-              className="w-[40px] h-[40px] object-cover border-2 border-white inline-block mr-4"
-              src={reciverId?.profile}
-              alt="Image"
-            /> */}
             <span className="text-stone-300">To : &nbsp; </span>
           </span>
-          {userName}
-          {/* <span>💬</span> */}
+          {userName + " "}
+          <div>{isTyping ? <p> &nbsp; is typing...</p> : null}</div>
         </div>
       )}
       <div className="h-full overflow-auto mt-2 mb-5 pl-4 pr-10">
         {getMessage === null ? (
           <div className="w-full h-full flex items-center justify-center flex-col ">
-            {/* <h1 className="text-lg font-semibold"> */}
             <div className="glitch-wrapper p-10">
               <div
                 className="glitch  bg-black rounded-md p-4 uppercase"
@@ -154,10 +147,7 @@ const MessageBox = () => {
                 Select A friend from your friend list to chat.
               </div>
             </div>
-            {/* <div className="bg-red-400">
-                  {DateFormat(new Date(2024, 5, 4))}
-                </div> */}
-            {/* </h1> */}
+
             <div className="">
               <img
                 className="w-[100px] mt-10"
