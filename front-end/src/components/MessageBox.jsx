@@ -7,6 +7,8 @@ import Message from "./messages";
 import { authSliceActions } from "../settings/slice/authSlice";
 import toast from "react-hot-toast";
 
+import notification from "../assets/sound/messageSound.mp3";
+
 import { useSocketContext } from "../libs/context";
 const MessageBox = () => {
   const getMessage = useSelector((state) => state?.message?.messageData);
@@ -56,7 +58,7 @@ const MessageBox = () => {
         50
       );
     });
-  }, [handleChange]);
+  }, [loadingmessage]);
 
   useEffect(() => {
     socket?.on("typing", () => {
@@ -101,6 +103,19 @@ const MessageBox = () => {
         console.log(error);
       }
       dispatch(messageIdActions.setRealtimeSupport(false));
+      const sound = new Audio(notification);
+      sound.play();
+
+      setTimeout(() => {
+        scrollsmoth.current?.scrollIntoView(
+          {
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          },
+          50
+        );
+      });
     } else {
       toast.error("Empty message are not send!");
     }
@@ -117,7 +132,7 @@ const MessageBox = () => {
   return (
     <div
       style={{ flex: "10" }}
-      className={`border hidden flex-none  md:flex lg:flex  flex-col h-[90%] m-[auto_0] lg:h-full lg:m-0 justify-between ml-2 ${
+      className={`border hidden flex-none  md:flex lg:flex  flex-col h-[80%] m-[auto_0] lg:h-full lg:m-0 justify-between ml-2 ${
         toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
       }`}
     >
