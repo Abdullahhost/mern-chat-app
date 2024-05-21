@@ -58,7 +58,7 @@ const MessageBox = () => {
         50
       );
     });
-  }, [loadingmessage]);
+  }, [loadingmessage, getMessage]);
 
   useEffect(() => {
     socket?.on("typing", () => {

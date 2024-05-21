@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import { useSelector } from "react-redux";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { timeCalculating } from "../libs/timeCalculate";
 import { messageIdActions } from "../settings/slice/messageSlice";
 import { useSocketContext } from "../libs/context";
@@ -17,6 +17,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
   const { socket } = useSocketContext();
 
   const dispatch = useDispatch();
+    const [lastMessage, setLastMessage] = useState(undefined);
 
   useEffect(() => {
     socket?.on("newMessage", (newMessage) => {
@@ -31,6 +32,8 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
         return;
       }
     });
+
+     setLastMessage(getMessage?.slice(-1).pop());
     return () => socket?.off("newMessage");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,7 +60,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
             <div
               className={`px-3 py-[6px] bg-[#4b49b6] rounded-xl text-sm max-w-[300px] relative roundedIcon  ${
                 own ? "bg-[#cececa] text-black roundedIcon1" : "text-white"
-              } ${message?.shouldShake === true ? "shake" : ""}`}
+              } ${lastMessage?.message === message && !own ? "shake" : ""}`}
             >
               {message}
             </div>

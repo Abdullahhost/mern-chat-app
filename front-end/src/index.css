@@ -316,3 +316,31 @@ body {
     opacity: 1;
   }
 }
+.shake {
+  /* display: inline-block; Ensures the transform works correctly */
+  animation: shake 0.5s; /* Name of the keyframes, duration */
+  animation-timing-function: ease-in-out; /* Optional: controls the animation's pace */
+  animation-iteration-count: 1; /* Optional: repeats the animation infinitely */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
