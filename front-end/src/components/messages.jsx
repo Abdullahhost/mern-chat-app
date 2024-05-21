@@ -33,7 +33,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
       }
     });
 
-     setLastMessage(getMessage?.slice(-1).pop());
+     setLastMessage(prevMessage?.slice(-1).pop());
     return () => socket?.off("newMessage");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
