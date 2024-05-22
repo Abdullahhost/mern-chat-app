@@ -132,15 +132,15 @@ const MessageBox = () => {
   return (
     <div
       style={{ flex: "10" }}
-      className={`border hidden flex-none  md:flex lg:flex  flex-col  h-[85%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-2 ${
+      className={`duration-1000 transition lg:border md:pl-4 hidden flex-none  md:flex lg:flex  flex-col h-[90%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-0 lg:ml-2 ${
         toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
       }`}
     >
       {reciverId && userName !== null && (
-        <div className="pr-4  md:px-4 py-1 flex items-center bg-[#4B49B6] text-white ">
+        <div className="pr-4  md:px-4 py-1 lg:py-2 flex items-center bg-[#4B49B6]  rounded-md text-white ">
           <span
             onClick={handleToggle}
-            className="px-4 mr-4  cursor-pointer inline-block text-center py-1 text-xl bg-[#8395f8] font-thin md:hidden"
+            className="px-4 mr-4 transition cursor-pointer inline-block text-center ease-in-out py-1 text-xl shadow-sm shadow-black hover:border-2  hover:bg-black hover:text-white rounded-md bg-[#8395f8] font-thin md:hidden"
           >
             ⬅
           </span>
@@ -151,7 +151,7 @@ const MessageBox = () => {
           <div>{isTyping ? <p> &nbsp; is typing...</p> : null}</div>
         </div>
       )}
-      <div className="h-full overflow-auto mt-2 mb-5 pl-4 pr-10">
+      <div className="h-full overflow-auto mt-2 mb-5 pl-0 pr-0 lg:pl-2 lg:pr-6">
         {getMessage === null ? (
           <div className="w-full h-full flex items-center justify-center flex-col ">
             <div className="glitch-wrapper p-10">

@@ -56,7 +56,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
             alt="UserImage"
           />
 
-          <div className="">
+          <div>
             <div
               className={`px-3 py-[6px] bg-[#4b49b6] rounded-xl text-sm max-w-[300px] relative roundedIcon  ${
                 own ? "bg-[#cececa] text-black roundedIcon1" : "text-white"
