@@ -56,7 +56,7 @@ const AllUser = () => {
     <>
       <div
         style={{ flex: "3" }}
-        className={`flex flex-col items-center md:items-start justify-between h-[80%] m-[auto_0] lg:h-full lg:m-0 border-l ${
+        className={`flex flex-col items-center md:items-start justify-between  h-[85%] mt-[5%] mb-[20%] lg:h-full lg:m-0 border-l ${
           toggleButton ? "hidden md:flex" : "testClass"
         } w-full`}
       >

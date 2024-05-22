@@ -132,7 +132,7 @@ const MessageBox = () => {
   return (
     <div
       style={{ flex: "10" }}
-      className={`border hidden flex-none  md:flex lg:flex  flex-col h-[80%] m-[auto_0] lg:h-full lg:m-0 justify-between ml-2 ${
+      className={`border hidden flex-none  md:flex lg:flex  flex-col  h-[85%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-2 ${
         toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
       }`}
     >

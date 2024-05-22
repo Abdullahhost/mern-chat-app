@@ -12,7 +12,7 @@ const SingleUser = ({ userInfo }) => {
   // eslint-disable-next-line react/prop-types
   const { profile, userName, _id } = userInfo;
 
-  const { onlineUsers, socket } = useSocketContext();
+  const { onlineUsers } = useSocketContext();
   const isOnline = onlineUsers.includes(_id);
 
   const selectedUser = useSelector((state) => state?.auth?.selectedUser);
@@ -53,7 +53,7 @@ const SingleUser = ({ userInfo }) => {
     getLastMessage();
     return () => getLastMessage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, onlineUsers]);
+  }, []);
 
   useEffect(() => {
     let handler = (e) => {
@@ -141,9 +141,13 @@ const SingleUser = ({ userInfo }) => {
               selectedUser?._id === _id ? "text-white" : "text-slate-800"
             }`}
           >
-            {getLastMessage
-              ? getLastMessage?.message
-              : "Hey, I am using shomachar app."}
+            {getLastMessage ? (
+              <small className="font-semibold text-[12px] font-sans">
+                {getLastMessage?.message}
+              </small>
+            ) : (
+              "Hey, I am using shomachar app."
+            )}
           </small>
         </div>
       </div>
