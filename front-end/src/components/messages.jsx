@@ -17,7 +17,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
   const { socket } = useSocketContext();
 
   const dispatch = useDispatch();
-    const [lastMessage, setLastMessage] = useState(undefined);
+  const [lastMessage, setLastMessage] = useState(undefined);
 
   useEffect(() => {
     socket?.on("newMessage", (newMessage) => {
@@ -32,10 +32,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
         return;
       }
     });
-
-     setLastMessage(prevMessage?.slice(-1).pop());
-    return () => socket?.off("newMessage");
-
+    setLastMessage(prevMessage?.slice(-1).pop());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMessage, messageIdActions, selectedUser, realtimeSup]);
 

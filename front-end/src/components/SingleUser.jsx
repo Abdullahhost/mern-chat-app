@@ -127,7 +127,7 @@ const SingleUser = ({ userInfo }) => {
             className={`text-lg text-stone-700 group-hover:text-slate-100 leading-4 truncate text-nowrap ${
               selectedUser?._id === _id
                 ? "font-semibold text-slate-100"
-                : "font-semibold"
+                : "font-semibold text-stone-700"
             }`}
           >
             {userName}

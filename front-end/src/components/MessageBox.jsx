@@ -15,6 +15,7 @@ const MessageBox = () => {
   const loadingmessage = useSelector((state) => state?.message?.loadingMessage);
   const reciverId = useSelector((state) => state?.auth?.selectedUser);
   const toggleButton = useSelector((state) => state?.auth?.toggleButton);
+  const realtimeSup = useSelector((state) => state.message.realtimeSupport);
   const userName = reciverId?.userName;
   const getProfileimage = reciverId?.profile;
 
@@ -46,6 +47,16 @@ const MessageBox = () => {
     debounceStopTyping();
     setTest(e?.target?.value);
   });
+
+  useEffect(() => {
+    socket?.on("newMessage", (newMessage) => {
+      if (newMessage) {
+        const sound = new Audio(notification);
+        sound.play();
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reciverId, realtimeSup]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -103,9 +114,6 @@ const MessageBox = () => {
         console.log(error);
       }
       dispatch(messageIdActions.setRealtimeSupport(false));
-      const sound = new Audio(notification);
-      sound.play();
-
       setTimeout(() => {
         scrollsmoth.current?.scrollIntoView(
           {
@@ -151,7 +159,7 @@ const MessageBox = () => {
           <div>{isTyping ? <p> &nbsp; is typing...</p> : null}</div>
         </div>
       )}
-      <div className="h-full overflow-auto mt-2 mb-5 pl-0 pr-0 lg:pl-2 lg:pr-6">
+      <div className="h-full overflow-auto mt-2 mb-5 pl-0 pr-2 lg:pl-2 lg:pr-6">
         {getMessage === null ? (
           <div className="w-full h-full flex items-center justify-center flex-col ">
             <div className="glitch-wrapper p-10">
