@@ -124,7 +124,7 @@ const SingleUser = ({ userInfo }) => {
       >
         <div className="flex justify-between items-center">
           <h2
-            className={`text-lg text-stone-700 group-hover:text-slate-100 leading-4 truncate text-nowrap ${
+            className={`text-lg group-hover:text-slate-100 leading-4 truncate text-nowrap ${
               selectedUser?._id === _id
                 ? "font-semibold text-slate-100"
                 : "font-semibold text-stone-700"
