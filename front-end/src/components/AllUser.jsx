@@ -8,11 +8,12 @@ import { toast } from "react-hot-toast";
 
 import SingleUser from "./SingleUser";
 import { useSelector } from "react-redux";
+import { API } from "../libs/productionVariableds";
 
 const AllUser = () => {
   const { data, loading, error } = useFetch(
-    "https://mern-chat-app-ermc.onrender.com/user"
-  );
+    `${API}/user`
+  ); 
   const [query, setQuery] = useState("");
   const toggleButton = useSelector((state) => state.auth.toggleButton);
   const filterForCurrentUser = data?.filter((ele) => {
@@ -26,7 +27,7 @@ const AllUser = () => {
   const logOut = async () => {
     try {
       const res = await axios.post(
-        "https://mern-chat-app-ermc.onrender.com/logout"
+        `${API}/logout`
       );
 
       toast.success(res?.data);

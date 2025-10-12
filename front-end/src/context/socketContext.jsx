@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   // console.log(test);
   useEffect(() => {
     if (userId) {
-      const socket = io("https://mern-chat-app-ermc.onrender.com", {
+      const socket = io("http://localhost:5001", {
         query: {
           userId: userId?._id,
         },

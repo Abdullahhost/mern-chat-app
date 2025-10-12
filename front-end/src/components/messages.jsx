@@ -55,13 +55,14 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
 
           <div>
             <div
-              className={`px-3 py-[6px] bg-[#4b49b6] rounded-xl text-sm max-w-[300px] relative roundedIcon  ${
+              className={`px-3 py-[6px] w-fit bg-[#4b49b6] rounded-xl text-sm max-w-[300px] relative roundedIcon  ${
                 own ? "bg-[#cececa] text-black roundedIcon1" : "text-white"
               } ${lastMessage?.message === message && !own ? "shake" : ""}`}
             >
               {message}
             </div>
             <small className="text-xs">{timeCalculating(createdAt)}</small>
+            {own && <small className="font-bold inline-block ml-2">you</small>}
           </div>
         </div>
       </div>

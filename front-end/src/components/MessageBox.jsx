@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import notification from "../assets/sound/messageSound.mp3";
 
 import { useSocketContext } from "../libs/context";
+import { API } from "../libs/productionVariableds";
 const MessageBox = () => {
   const getMessage = useSelector((state) => state?.message?.messageData);
   const loadingmessage = useSelector((state) => state?.message?.loadingMessage);
@@ -100,7 +101,7 @@ const MessageBox = () => {
     if (test !== "") {
       try {
         const res = await axios.post(
-          `https://mern-chat-app-ermc.onrender.com/messages/send/${reciverId?._id}`,
+          `${API}/messages/send/${reciverId?._id}`,
           chatMessage
         );
 

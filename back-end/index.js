@@ -16,7 +16,7 @@ import userRoute from "./routes/userRoute.js";
 import mongoose from "mongoose";
 app.use(
   cors({
-    origin: ["https://mern-chat-app-eta-two.vercel.app"],
+    origin: ["https://mern-chat-app-eta-two.vercel.app", "http://localhost:5173"],
     credentials: true, // Make sure to include this option to allow credentials
   })
 );

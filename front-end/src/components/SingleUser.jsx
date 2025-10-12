@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { userId } from "../hooks";
 import axios from "axios";
 import { dateFormat } from "../libs/dateFormat";
+import { API } from "../libs/productionVariableds";
 
 // eslint-disable-next-line react/prop-types
 const SingleUser = ({ userInfo }) => {
@@ -37,7 +38,7 @@ const SingleUser = ({ userInfo }) => {
     const getLastMessage = async () => {
       try {
         const res = await axios.post(
-          `https://mern-chat-app-ermc.onrender.com/messages/${_id}`,
+          `${API}/messages/${_id}`,
           senderId
         );
 

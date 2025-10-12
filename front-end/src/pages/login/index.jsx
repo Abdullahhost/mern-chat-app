@@ -5,6 +5,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
+import {API} from '../../libs/productionVariableds'
 import { Toaster, toast } from "react-hot-toast";
 
 import "./index.css";
@@ -56,7 +57,7 @@ const Login = () => {
       dispatch(authSliceActions.loginStart());
       try {
         const res = await axios.post(
-          "https://mern-chat-app-ermc.onrender.com/register",
+          `${API}/register`,
           formData,
           { withCredentials: true }
         );
@@ -75,7 +76,7 @@ const Login = () => {
       dispatch(authSliceActions.loginStart());
       try {
         const res = await axios.post(
-          "https://mern-chat-app-ermc.onrender.com/login",
+          `${API}/login`,
           loginvalue,
           {
             headers: {
