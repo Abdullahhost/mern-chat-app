@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../modal/userSchema.js";
 import { createError } from "../utils/error.handle.js";
-import generateTokenAndSetCokie from "../utils/generateToken.js";
+// import generateTokenAndSetCokie from "../utils/generateToken.js";
 
 export const loginUser = async (req, res, next) => {
   try {
@@ -27,7 +27,7 @@ export const loginUser = async (req, res, next) => {
       return res.status(400).json({ error: "password dosn't match!" });
     }
     if (user && isPasswordCorrect) {
-      generateTokenAndSetCokie(user._id, res);
+      // generateTokenAndSetCokie(user._id, res);
 
       return res.status(200).json({
         _id: user._id,
