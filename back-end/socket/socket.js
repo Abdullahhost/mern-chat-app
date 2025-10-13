@@ -9,9 +9,9 @@ const server = http.createServer(app);
 let PRODUCTION;
    
    if (process.env.NODE_ENV === 'production') {
-        PRODUCTION = "https://mern-chat-app-ermc.onrender.com"
+        PRODUCTION = "https://mern-chat-app-eta-two.vercel.app"
     } else {
-        PRODUCTION = "http://localhost:5001"
+        PRODUCTION = "http://localhost:5173"
     }
 
 const io = new Server(server, {
