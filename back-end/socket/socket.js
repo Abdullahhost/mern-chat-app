@@ -5,9 +5,18 @@ import express from "express";
 const app = express();
 const server = http.createServer(app);
 
+
+let PRODUCTION;
+   
+   if (process.env.NODE_ENV === 'production') {
+        PRODUCTION = "https://mern-chat-app-ermc.onrender.com"
+    } else {
+        PRODUCTION = "http://localhost:5001"
+    }
+
 const io = new Server(server, {
   cors: {
-    origin: ["https://mern-chat-app-ermc.onrender.com", "http://localhost:5173" ],
+    origin: PRODUCTION,
     methods: ["GET", "POST"],
   },
 });
