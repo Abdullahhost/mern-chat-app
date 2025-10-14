@@ -6,9 +6,17 @@ const app = express();
 const server = http.createServer(app);
 
 
+let PRODUCTION;
+   
+   if (process.env.NODE_ENV === 'production') {
+        PRODUCTION = "https://mern-chat-app-eta-two.vercel.app"
+    } else {
+        PRODUCTION = "http://localhost:5173"
+    }
+
 const io = new Server(server, {
   cors: {
-    origin: "https://mern-chat-app-eta-two.vercel.app",
+    origin: PRODUCTION,
     methods: ["GET", "POST"],
   },
 });

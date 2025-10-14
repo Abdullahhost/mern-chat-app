@@ -4,6 +4,8 @@ import io from "socket.io-client";
 import { userId } from "../hooks";
 
 import { socketContext } from "../libs/context";
+import { API } from "../libs/productionVariableds";
+
 
 // eslint-disable-next-line react/prop-types
 export const SocketContextProvider = ({ children }) => {
@@ -14,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
   // console.log(test);
   useEffect(() => {
     if (userId) {
-      const socket = io("http://localhost:5001", {
+      const socket = io(API, {
         query: {
           userId: userId?._id,
         },
