@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { userId } from "./index";
 import { messageIdActions } from "../settings/slice/messageSlice";
+import { API } from "../libs/productionVariableds";
 
 export const useGetMessage = () => {
   const selectedUser = useSelector((state) => state?.auth?.selectedUser);
@@ -19,7 +20,7 @@ export const useGetMessage = () => {
       try {
         if (selectedUser) {
           const res = await axios.post(
-            `http://localhost:5001/messages/${selectedUser?._id}`,
+            `${API}/messages/${selectedUser?._id}`,
             senderId
           );
           dispatch(messageIdActions.setMessage(res?.data));
