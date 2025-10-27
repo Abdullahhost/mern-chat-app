@@ -209,7 +209,7 @@ const MessageBox = () => {
       {reciverId && (
         <div
           style={{ boxShadow: " box-shadow: 0 -5px 5px -5px #333" }}
-          className="w-full flex gap-3 flex-start relative topShadow border mb-2"
+          className="w-full flex gap-3 flex-start relative border mb-2"
         >
           <textarea
             ref={textBox}

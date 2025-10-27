@@ -21,7 +21,7 @@ const AllUser = () => {
   });
 
   const filterforSerching = filterForCurrentUser?.filter((ele) => {
-    return ele.userName.toLowerCase().includes(query);
+    return ele?.userName?.toLowerCase().includes(query);
   });
 
   const logOut = async () => {
