@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../modal/userSchema.js";
 import { createError } from "../utils/error.handle.js";
 
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 export const loginUser = async (req, res, next) => {
   try {
@@ -26,24 +26,24 @@ export const loginUser = async (req, res, next) => {
 
     if (user && isPasswordCorrect) {
 
-      const token = await new Promise((resolve, reject) => {
-        jwt.sign(
-          { id: user._id },
-          process.env.JWT_SECRET,
-          { expiresIn: "15d" },
-          (err, token) => {
-            if (err) reject(err);
-            else resolve(token);
-          }
-        );
-      });
+      // const token = await new Promise((resolve, reject) => {
+      //   jwt.sign(
+      //     { id: user._id },
+      //     process.env.JWT_SECRET,
+      //     { expiresIn: "15d" },
+      //     (err, token) => {
+      //       if (err) reject(err);
+      //       else resolve(token);
+      //     }
+      //   );
+      // });
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== "development" ? true : false,
-        sameSite: "lax",
-        maxAge: 15 * 24 * 60 * 60 * 1000, 
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV !== "development" ? true : false,
+      //   sameSite: "lax",
+      //   maxAge: 15 * 24 * 60 * 60 * 1000, 
+      // });
       return res.status(200).json({
         _id: user._id,
         userName: user.userName,
