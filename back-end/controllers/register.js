@@ -4,7 +4,6 @@ import fs from "fs-extra";
 import bcrypt from "bcryptjs";
 import User from "../modal/userSchema.js";
 import { createError } from "../utils/error.handle.js";
-import generateTokenAndSetCokie from "../utils/generateToken.js";
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -35,7 +34,6 @@ export const createUser = async (req, res, next) => {
     });
 
     if (newUser) {
-      generateTokenAndSetCokie(newUser._id, res);
       await newUser.save();
       await fs.unlink(req.file.path);
 

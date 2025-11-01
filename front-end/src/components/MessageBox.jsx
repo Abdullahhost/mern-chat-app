@@ -7,6 +7,8 @@ import Message from "./messages";
 import { authSliceActions } from "../settings/slice/authSlice";
 import toast from "react-hot-toast";
 
+import { BsImage } from 'react-icons/bs'
+
 import notification from "../assets/sound/messageSound.mp3";
 
 import { useSocketContext } from "../libs/context";
@@ -23,23 +25,42 @@ const MessageBox = () => {
   const { socket } = useSocketContext();
 
   const dispatch = useDispatch();
+
   const scrollsmoth = useRef(null);
   const textBox = useRef(null);
+  const [imageUpload, setImageUpload] = useState(false);
+
   const [test, setTest] = useState("");
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [cImage, setProfile] = useState(undefined)
 
-  const [chatMessage, setChatMessage] = useState({
+  const [textMessage, setTextMessage] = useState({
     userProfileId: userId?._id,
     message: test,
   });
 
+  const [imageMessage, setImageMessage] = useState({
+    userProfileId: userId?._id,
+  })
+
+
+
+console.log(scrollsmoth)
+
+  const handleFileChange = (e) => {
+
+    setImageUpload(true)
+    setProfile(e.target.files[0])
+  }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChange = useCallback((e) => {
-    setChatMessage({
-      ...chatMessage,
+    setTextMessage({
+      ...textMessage,
       message: e?.target?.value,
     });
+
 
     if (!typing) {
       setTyping(true);
@@ -67,7 +88,7 @@ const MessageBox = () => {
           block: "end",
           inline: "nearest",
         },
-        50
+        500
       );
     });
   }, [loadingmessage, getMessage]);
@@ -97,34 +118,83 @@ const MessageBox = () => {
     }, 8000);
   };
 
-  const handleClick = async () => {
-    if (test !== "") {
-      try {
-        const res = await axios.post(
-          `${API}/messages/send/${reciverId?._id}`,
-          chatMessage
-        );
 
-        dispatch(messageIdActions.setRealtimeSupport(true));
-        dispatch(messageIdActions.setMessage([...getMessage, res?.data]));
-        setTest("");
-        setTyping(false);
-        socket.emit("stopTyping");
-        textBox?.current?.value === "";
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (test !== "" || cImage !== undefined) {
+      try {
+        if (imageUpload) {
+          const formData = new FormData();
+          formData.append("userProfileId", imageMessage.userProfileId);
+          formData.append("cImage", cImage)
+
+          const res = await axios.post(
+            `${API}/messages/send/${reciverId?._id}`,
+            formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
+          }
+          ).finally(() => {
+            setProfile(undefined);
+            setImageUpload(false);
+            dispatch(messageIdActions.setRealtimeSupport(false));
+            setTimeout(() => {
+              scrollsmoth.current?.scrollIntoView(
+                {
+                  behavior: "smooth",
+                  block: "end",
+                  inline: "end",
+                },
+                50
+              );
+            });
+          })
+
+          dispatch(messageIdActions.setRealtimeSupport(true));
+          dispatch(messageIdActions.setMessage([...getMessage, res?.data]));
+          setTyping(false);
+          socket.emit("stopTyping");
+
+        } else {
+
+          const res = await axios.post(
+            `${API}/messages/send/${reciverId?._id}`,
+            textMessage, { withCredentials: true }
+          );
+
+
+          dispatch(messageIdActions.setRealtimeSupport(true));
+          dispatch(messageIdActions.setMessage([...getMessage, res?.data]));
+          setTest("");
+          setTyping(false);
+
+          socket.emit("stopTyping");
+          textBox?.current?.value === "";
+
+
+
+          dispatch(messageIdActions.setRealtimeSupport(false));
+          setTimeout(() => {
+            scrollsmoth.current?.scrollIntoView(
+              {
+                behavior: "smooth",
+                block: "end",
+                inline: "end",
+              },
+              500
+            );
+          });
+        }
+
+
       } catch (error) {
         console.log(error);
       }
       dispatch(messageIdActions.setRealtimeSupport(false));
-      setTimeout(() => {
-        scrollsmoth.current?.scrollIntoView(
-          {
-            behavior: "smooth",
-            block: "end",
-            inline: "nearest",
-          },
-          50
-        );
-      });
     } else {
       toast.error("Empty message are not send!");
     }
@@ -141,9 +211,8 @@ const MessageBox = () => {
   return (
     <div
       style={{ flex: "10" }}
-      className={`duration-1000 transition lg:border md:pl-4 hidden flex-none  md:flex lg:flex  flex-col h-[90%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-0 lg:ml-2 ${
-        toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
-      }`}
+      className={`duration-1000 transition lg:border md:pl-4 hidden flex-none  md:flex lg:flex  flex-col h-[90%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-0 lg:ml-2 ${toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
+        }`}
     >
       {reciverId && userName !== null && (
         <div className="pr-4  md:px-4 py-1 lg:py-2 flex items-center bg-[#4B49B6]  rounded-md text-white ">
@@ -207,10 +276,15 @@ const MessageBox = () => {
         )}
       </div>
       {reciverId && (
-        <div
+        <form
+          onSubmit={handleSubmit}
           style={{ boxShadow: " box-shadow: 0 -5px 5px -5px #333" }}
           className="w-full flex gap-3 flex-start relative border mb-2"
         >
+          <div className="cursor-pointer p-2 w-[60px] h-[40px] relative">
+            <input type="file" className="opacity-5 w-full h-full border -mt-2" name='cImage' onChange={handleFileChange} />
+            <BsImage className="absolute top-0 left-0 -z-10" size={40} />
+          </div>
           <textarea
             ref={textBox}
             className="w-full border rounded-md py-2 px-4"
@@ -222,13 +296,11 @@ const MessageBox = () => {
             placeholder={isTyping ? "typing.." : "lets send or drop a message"}
           ></textarea>
 
-          <button
-            onClick={handleClick}
+          <input type="submit"
+            value={"Send"}
             className="text-white bg-[#4B49B6] px-5 py-3 h-fit w-fit rounded-md "
-          >
-            Send
-          </button>
-        </div>
+          />
+        </form>
       )}
     </div>
   );

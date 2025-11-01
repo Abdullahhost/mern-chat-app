@@ -14,8 +14,13 @@ const MessageSchema = new Schema(
     },
     message: {
       type: String,
-      required: true,
     },
+    cImage: {
+      type: String,
+    },
+    public_id: {
+      type: String
+    }
   },
   { timestamps: true }
 );
