@@ -13,6 +13,7 @@ import notification from "../assets/sound/messageSound.mp3";
 
 import { useSocketContext } from "../libs/context";
 import { API } from "../libs/productionVariableds";
+import Skeleton from "../skeloten";
 const MessageBox = () => {
   const getMessage = useSelector((state) => state?.message?.messageData);
   const loadingmessage = useSelector((state) => state?.message?.loadingMessage);
@@ -29,6 +30,7 @@ const MessageBox = () => {
   const scrollsmoth = useRef(null);
   const textBox = useRef(null);
   const [imageUpload, setImageUpload] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [test, setTest] = useState("");
   const [typing, setTyping] = useState(false);
@@ -46,7 +48,7 @@ const MessageBox = () => {
 
 
 
-console.log(scrollsmoth)
+  console.log(scrollsmoth)
 
   const handleFileChange = (e) => {
 
@@ -80,18 +82,21 @@ console.log(scrollsmoth)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reciverId, realtimeSup]);
 
-  useEffect(() => {
+
+  const scrollToBottom = useCallback(() => {
+    // A small delay can sometimes help ensure the DOM has updated
     setTimeout(() => {
-      scrollsmoth.current?.scrollIntoView(
-        {
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        },
-        500
-      );
-    });
-  }, [loadingmessage, getMessage]);
+      scrollsmoth.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end", // ensures the end of the element is visible
+        inline: "nearest",
+      });
+    }, 50); // Minimal delay
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [loadingmessage, getMessage, scrollToBottom]);
 
   useEffect(() => {
     socket?.on("typing", () => {
@@ -127,6 +132,7 @@ console.log(scrollsmoth)
     if (test !== "" || cImage !== undefined) {
       try {
         if (imageUpload) {
+          setLoading(true)
           const formData = new FormData();
           formData.append("userProfileId", imageMessage.userProfileId);
           formData.append("cImage", cImage)
@@ -141,17 +147,9 @@ console.log(scrollsmoth)
           ).finally(() => {
             setProfile(undefined);
             setImageUpload(false);
+            setLoading(false)
             dispatch(messageIdActions.setRealtimeSupport(false));
-            setTimeout(() => {
-              scrollsmoth.current?.scrollIntoView(
-                {
-                  behavior: "smooth",
-                  block: "end",
-                  inline: "end",
-                },
-                50
-              );
-            });
+            scrollToBottom()
           })
 
           dispatch(messageIdActions.setRealtimeSupport(true));
@@ -178,16 +176,7 @@ console.log(scrollsmoth)
 
 
           dispatch(messageIdActions.setRealtimeSupport(false));
-          setTimeout(() => {
-            scrollsmoth.current?.scrollIntoView(
-              {
-                behavior: "smooth",
-                block: "end",
-                inline: "end",
-              },
-              500
-            );
-          });
+         scrollToBottom()
         }
 
 
@@ -211,9 +200,24 @@ console.log(scrollsmoth)
   return (
     <div
       style={{ flex: "10" }}
-      className={`duration-1000 transition lg:border md:pl-4 hidden flex-none  md:flex lg:flex  flex-col h-[90%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-0 lg:ml-2 ${toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
+      className={`duration-1000 relative transition lg:border md:pl-4 hidden flex-none  md:flex lg:flex  flex-col h-[90%] mt-[5%] mb-[20%] lg:h-full lg:m-0 justify-between ml-0 lg:ml-2 ${toggleButton ? " testClass sm:flex md:flex lg:flex flex" : ""
         }`}
     >
+      {loading && <div className="absolute bottom-[60px] z-[1000] w-full h-full  bg-[#ffffff9c] backdrop-blur-sm">
+
+        <div className="loaderBox">
+
+
+          <Skeleton />
+        </div>
+      </div>
+      }
+      {imageUpload && <div className="absolute bottom-[60px] z-[500] border left-0 w-full p-24 pb-12 h-full bg-[#121deb64] backdrop-blur-sm">
+        <div className="w-full h-full flex justify-center">
+
+          <img className="h-full object-scale-down" src={URL.createObjectURL(cImage)} alt="Cimage" />
+        </div>
+      </div>}
       {reciverId && userName !== null && (
         <div className="pr-4  md:px-4 py-1 lg:py-2 flex items-center bg-[#4B49B6]  rounded-md text-white ">
           <span
@@ -229,7 +233,11 @@ console.log(scrollsmoth)
           <div>{isTyping ? <p> &nbsp; is typing...</p> : null}</div>
         </div>
       )}
+
+
       <div className="h-full overflow-auto mt-2 mb-5 pl-0 pr-2 lg:pl-2 lg:pr-6">
+
+
         {getMessage === null ? (
           <div className="w-full h-full flex items-center justify-center flex-col ">
             <div className="glitch-wrapper p-10">
@@ -262,6 +270,7 @@ console.log(scrollsmoth)
                   own={ele?.senderId === userId._id ? true : false}
                   getProfileimage={getProfileimage}
                   ownProfile={userId?.profile}
+                  scrollToBottom={scrollToBottom}
                 />
               </div>
             );

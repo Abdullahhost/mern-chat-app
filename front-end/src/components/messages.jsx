@@ -8,7 +8,7 @@ import { useSocketContext } from "../libs/context";
 import { useDispatch, useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
-const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
+const Message = ({ own, getMessage, getProfileimage, ownProfile, scrollToBottom }) => {
   // eslint-disable-next-line react/prop-types
   const { message, createdAt, cImage } = getMessage;
   const prevMessage = useSelector((state) => state.message.messageData);
@@ -61,7 +61,7 @@ const Message = ({ own, getMessage, getProfileimage, ownProfile }) => {
               </div>
               <div className="w-full">
 
-                <img src={cImage} className="object-cover w-full h-full" alt="Image" />
+                <img src={cImage} onLoad={scrollToBottom} className="object-cover w-full h-full" alt="Image" />
               </div>
 
             </div>
